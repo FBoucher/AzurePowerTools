@@ -6,3 +6,8 @@ The script asks you to login-in then list all the subscriptions that this accoun
 
 Be  careful. 
 
+Related blog post: 
+
+- [Need to Nuke an Azure Subscription?](http://www.frankysnotes.com/2016/12/need-to-nuke-azure-subscription.html)
+- [Besoin d'exploser un abonnement Azure?](http://www.cloudenfrancais.com/besoin-dexploser-un-abonnement-azure/)
+
