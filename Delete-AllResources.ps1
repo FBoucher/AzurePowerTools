@@ -15,7 +15,7 @@ Login-AzureRmAccount
 # Get a list of all Azure subscript that the user can access
 $allSubs = Get-AzureRmSubscription 
 
-$allSubs | Sort-Object SubscriptionName | Format-Table -Property SubscriptionName, SubscriptionId, State
+$allSubs | Sort-Object Name | Format-Table -Property Name, SubscriptionId, State
 
 
 $theSub = Read-Host "Enter the subscriptionId you want to clean"
@@ -36,8 +36,7 @@ foreach ( $g in $allRG){
     
     if($allResources){
         $allResources | Format-Table -Property Name, ResourceName
-    }
-    else{
+    }else{
          Write-Host "-- empty--`n"
     } 
     Write-Host "`n`n------------------------------------------------------" -ForegroundColor Yellow 
@@ -51,11 +50,11 @@ if($lastValidation.ToLower().Equals("yes")){
     foreach ( $g in $allRG){
 
         Write-Host "Deleting " $g.ResourceGroupName 
+        # Last safety, you need to remove the -WhatIf parameter to really delete the resources
         Remove-AzureRmResourceGroup -Name $g.ResourceGroupName -Force -WhatIf
 
     }
-}
-else{
+}else{
      Write-Host "Aborded. Nothing was deleted." -ForegroundColor Cyan
 }
 
