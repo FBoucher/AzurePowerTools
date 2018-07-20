@@ -23,16 +23,17 @@ $theSub = Read-Host "Enter the subscriptionId you want to clean"
 Write-Host "You select the following subscription. (it will be display 15 sec.)" -ForegroundColor Cyan
 Get-AzureRmSubscription -SubscriptionId $theSub | Select-AzureRmSubscription 
 
-#Get all the resources groups
-
+# Get all the resources groups
 $allRG = Get-AzureRmResourceGroup
-
 
 foreach ( $g in $allRG){
 
     Write-Host $g.ResourceGroupName -ForegroundColor Yellow 
     Write-Host "------------------------------------------------------`n" -ForegroundColor Yellow 
-    $allResources = Find-AzureRmResource -ResourceGroupNameContains $g.ResourceGroupName
+    
+    # Using -ODataQuery is compatible with AzureRM 5.x and AzureRM 6.x. -ResourceGroupName is only in 6.x
+    $query = "`$filter=resourceGroup eq '{0}'" -f $g.ResourceGroupName
+    $allResources = Get-AzureRmResource -ODataQuery $query
     
     if($allResources){
         $allResources | Format-Table -Property Name, ResourceName
@@ -42,6 +43,7 @@ foreach ( $g in $allRG){
     Write-Host "`n`n------------------------------------------------------" -ForegroundColor Yellow 
 }
 
+exit
 
 $lastValidation = Read-Host "Do you wich to delete ALL the resouces previously listed? (YES/ NO)"
 
