@@ -1,0 +1,15 @@
+az graph query -q 'project name, type, location, tostring(tags.expireOn)' -o table
+
+az graph query -q 'project name, type, location, tostring(tags.displayName)' -o table
+ 
+az graph query -q 'project name, type, tostring(tags.displayName) =~ "hackdogdemovfj5pstgfunc" | limit 5'
+
+az graph query -q 'where tostring(tags.displayName) matches regex "^hack" | project name, type, displayName=tostring(tags.displayName) | limit 5'
+
+az graph query -q 'where tostring(tags.expireOn) != "" | project name, type, expireOn=tostring(tags.expireOn) | limit 5'
+
+az graph query -q 'where todatetime(tags.expireOn) < now() | project name, type, expireOn=tostring(tags.expireOn) | limit 5'
+
+az graph query -q 'where todatetime(tags.expireOn) < now() | project id'
+
+# az group list --query "[length(@)]"
